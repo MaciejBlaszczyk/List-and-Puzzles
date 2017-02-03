@@ -1,65 +1,59 @@
 #include "Puzzle.h"
-#include<windows.h> //for system("cls")
-#include<conio.h> //for getch()
 
 main()
 {
 	string word("banana");
-	string answer("banaan");
-	Puzzle puzle(answer.c_str(), word.c_str());
-
-	char element;
+	string solution("banaan");
+	Puzzle puzle(solution.c_str(), word.c_str());
 
 	while(1)
 	{
 		char numb;
 		system("cls");
 		cout<<"Welcome to Puzzles !\n\n"
-				<<"If you want to insert element after cursor , press +\n"
-				<<"If you want to delete element on cursor position, press -\n"
-				<<"If you want to replace element on cursor position, press =\n"
-				<<"If you want to show element on cursor position, press @\n"
-				<<"If you want to show whole puzzles, press S\n"
-				<<"If you want to show answer, press A\n"
-				<<"If you want to go to next element, press N\n"
-				<<"If you want to go to prior element, press P\n"
-				<<"If you want to go to the beginning of the list, press <\n"
-				<<"If you want to go to the end of the list, press >\n"
-				<<"If you want to check if list is empty, press E\n"
-				<<"If you want to clear whole list, press C\n"
-				<<"If you want to check if puzzles are solved, press ?\n"
-				<<"If you want to exit, press Q\n";
+			<<"If you want to insert element after cursor , press +\n"
+			<<"If you want to delete element on cursor position, press -\n"
+			<<"If you want to replace element on cursor position, press =\n"
+			<<"If you want to go to next element, press N\n"
+			<<"If you want to go to prior element, press P\n"
+			<<"If you want to go to the beginning of the list, press <\n"
+			<<"If you want to go to the end of the list, press >\n"
+			<<"If you want to check if list is empty, press E\n"
+			<<"If you want to clear whole list, press C\n"
+			<<"If you want to check if puzzles are solved, press ?\n"
+			<<"If you want to exit, press Q\n";
 
+		cout<<endl<<"Puzzle:"<<endl;
+		puzle.showWord();
+		cout<<endl;
+		puzle.cursor();
+		cout<<"Solution:"<<endl;
+		puzle.showSolution();
+		cout<<endl;
 		cin>>numb;
 		try
 		{
 			switch(toupper(numb))
 			{
-				case '+' : cout<<"Enter element: "; cin>>element; puzle.puzzle.insert(element); getch();
+				case '+' : puzle.insert();
 				break;
-				case '-' : puzle.puzzle.remove(); getch();
+				case '-' : puzle.remove();
 				break;
-				case '=' : cout<<"Enter element: "; cin>>element; puzle.puzzle.replace(element); getch();
+				case '=' : puzle.replace();
 				break;
-				case '@' : puzle.puzzle.showElement(); getch();
+				case 'N' : puzle.gotoNext();
 				break;
-				case 'S' : puzle.puzzle.showEverything(); getch();
+				case 'P' : puzle.gotoPrior();
 				break;
-				case 'A' : puzle.solution.showEverything(); getch();
+				case '<' : puzle.gotoBeginning();
 				break;
-				case 'N' : puzle.puzzle.gotoNext();
+				case '>' : puzle.gotoEnd();
 				break;
-				case 'P' : puzle.puzzle.gotoPrior();
+				case 'E' : puzle.isEmpty();
 				break;
-				case '<' : puzle.puzzle.gotoBeginning();
+				case 'C' : puzle.clear();
 				break;
-				case '>' : puzle.puzzle.gotoEnd();
-				break;
-				case 'E' : if(puzle.puzzle.isEmpty() == true) cout<<"List is empty"<<endl; else cout<<"List is not empty"<<endl; getch();
-				break;
-				case 'C' : puzle.puzzle.clear(); getch();
-				break;
-				case '?' : if(puzle.isSolved() == true) { cout<<"Puzzles solved !!! Congratulations !!!"<<endl; getch(); }  else { cout<<"Try again"<<endl; getch(); }
+				case '?' : puzle.isSolved();
 				break;
 				case 'Q' : return 1;
 				break;
@@ -83,3 +77,4 @@ main()
 	}
 	return 0;
 }
+

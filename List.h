@@ -3,41 +3,64 @@
 
 #include "ListNode.h"
 #include <stdexcept>
-#include <exception>
 
-template <typename type>
+template <typename T>
 class List
 {
 public:
 	List() : cursor(nullptr), head(nullptr) { }
-	~List() { clear(); }
+	List(const List<T> &list2);
+	~List();
 
-	void insert(const type &newElement);
-	void replace (const type &newElement);
+	void insert(const T &newElement);
+	void replace (const T &newElement);
 	void remove();
 	void clear();
 	void gotoPrior();
 	void gotoNext();
 	void gotoBeginning();
 	void gotoEnd();
-	bool isEmpty() const { return head == NULL ? true : false; }
+	bool isEmpty() const;
 	void showElement() const;   //use only for bult-in types
 	void showEverything() const; //use only for bult-in types
 
-	bool operator==(const List<type> &list2);
-
+	bool operator==(const List<T> &list2);
+	List<T> operator=(const List<T> &list2);
 
 private:
-	ListNode<type> *cursor, *head;
+	ListNode<T> *cursor, *head;
 };
 
-template <typename type>
-void List<type>:: insert(const type &newElement)
+template <typename T>
+List<T>:: List(const List<T> &list2)
 {
-	ListNode<type> *temp;
+
 	if(isEmpty() == true)
 	{
-		temp = new ListNode<type>(newElement);
+		throw logic_error("List is empty!");
+		return;
+	}
+	ListNode<T> *temp = list2.head;
+	do
+	{
+		this->insert(temp);
+		temp = temp->next;
+	}while(temp != head);
+}
+
+template <typename T>
+List<T>:: ~List()
+{
+	clear();
+}
+
+template <typename T>
+void List<T>:: insert(const T &newElement)
+{
+	ListNode<T> *temp;
+	if(isEmpty() == true)
+	{
+		temp = new ListNode<T>(newElement);
 		head = temp;
 		cursor = temp;
 		head->prior = temp;
@@ -45,7 +68,7 @@ void List<type>:: insert(const type &newElement)
 	}
 	else
 	{
-		temp = new ListNode<type>(newElement, cursor, cursor->next);
+		temp = new ListNode<T>(newElement, cursor, cursor->next);
 		cursor->next = temp;
 		cursor = temp;
 		if(cursor->next == head)
@@ -53,8 +76,8 @@ void List<type>:: insert(const type &newElement)
 	}
 }
 
-template <typename type>
-void List<type>:: replace (const type &newElement)
+template <typename T>
+void List<T>:: replace(const T &newElement)
 {
 	if(isEmpty() == true)
 		throw logic_error("List is empty!");
@@ -62,8 +85,8 @@ void List<type>:: replace (const type &newElement)
 		cursor->data = newElement;
 }
 
-template <typename type>
-void List<type>:: remove()
+template <typename T>
+void List<T>:: remove()
 {
 	if(isEmpty() == true)
 		throw logic_error("List is empty!");
@@ -82,10 +105,10 @@ void List<type>:: remove()
 	}
 }
 
-template <typename type>
-void List<type>:: clear()
+template <typename T>
+void List<T>:: clear()
 {
-	ListNode<type> *temp = head;
+	ListNode<T> *temp = head;
 	if(isEmpty() == true)
 		throw logic_error("List is empty!");
 	else if(temp == temp->next)
@@ -103,8 +126,8 @@ void List<type>:: clear()
 	cursor = NULL;
 }
 
-template <typename type>
-void List<type>:: gotoPrior()
+template <typename T>
+void List<T>:: gotoPrior()
 {
 	if(isEmpty() == true)
 		throw logic_error("List is empty!");
@@ -112,8 +135,8 @@ void List<type>:: gotoPrior()
 		cursor = cursor->prior;
 }
 
-template <typename type>
-void List<type>:: gotoNext()
+template <typename T>
+void List<T>:: gotoNext()
 {
 	if(isEmpty() == true)
 		throw logic_error("List is empty!");
@@ -121,8 +144,8 @@ void List<type>:: gotoNext()
 		cursor = cursor->next;
 }
 
-template <typename type>
-void List<type>:: gotoBeginning()
+template <typename T>
+void List<T>:: gotoBeginning()
 {
 	if(isEmpty() == true)
 		throw logic_error("List is empty!");
@@ -130,8 +153,8 @@ void List<type>:: gotoBeginning()
 		cursor = head;
 }
 
-template <typename type>
-void List<type>:: gotoEnd()
+template <typename T>
+void List<T>:: gotoEnd()
 {
 	if(isEmpty() == true)
 		throw logic_error("List is empty!");
@@ -139,8 +162,14 @@ void List<type>:: gotoEnd()
 		cursor = head->prior;
 }
 
-template <typename type>
-void List<type>:: showElement() const
+template <typename T>
+bool List<T>:: isEmpty() const
+{
+	return head == NULL ? true : false;
+}
+
+template <typename T>
+void List<T>:: showElement() const
 {
 	if(isEmpty() == true)
 		throw logic_error("List is empty!");
@@ -148,15 +177,15 @@ void List<type>:: showElement() const
 		cout<<cursor->data;
 }
 
-template <typename type>
-void List<type>:: showEverything() const
+template <typename T>
+void List<T>:: showEverything() const
 {
 	if(isEmpty() == true)
 	{
 		throw logic_error("List is empty!");
 		return;
 	}
-	ListNode<type> *temp = head;
+	ListNode<T> *temp = head;
 	do
 	{
 		cout<<(*temp).data;
@@ -164,11 +193,11 @@ void List<type>:: showEverything() const
 	}while(temp != head);
 }
 
-template <typename type>
-bool List<type>:: operator==(const List<type> &list2)
+template <typename T>
+bool List<T>:: operator==(const List<T> &list2)
 {
-	ListNode<type> *temp = head;
-	ListNode<type> *temp2 = list2.head;
+	ListNode<T> *temp = head;
+	ListNode<T> *temp2 = list2.head;
 	if(head == nullptr || list2.head == nullptr)
 		return false;
 	if(head == nullptr && list2.head == nullptr)
@@ -181,6 +210,23 @@ bool List<type>:: operator==(const List<type> &list2)
 		temp2 = temp2->next;
 	}while(temp != head);
 	return true;
+}
+
+template <typename T>
+List<T> List<T>:: operator=(const List<T> &list2)
+{
+	if(isEmpty())
+	{
+		throw logic_error("List is empty!");
+		return;
+	}
+	ListNode<T> *temp = list2.head;
+	do
+	{
+		this->insert(temp);
+		temp = temp->next;
+	}while(temp != head);
+
 }
 
 #endif // LIST

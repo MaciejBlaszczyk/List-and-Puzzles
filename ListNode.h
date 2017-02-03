@@ -1,21 +1,21 @@
 #ifndef  LISTNODE
 #define LISTNODE
 
-#include<iostream>   //for cin, cout
+#include<iostream>
 
 using namespace std;
 
-template <typename type>
+template <typename T>
 class List;
 
-template <typename type>
+template <typename T>
 class ListNode
 {
-	friend class List<type>;
+	friend class List<T>;
 
-	ListNode (const type &data, ListNode *prior = nullptr, ListNode *next = nullptr) : data(data), prior(prior), next(next) { }
+	ListNode (const T &data, ListNode *prior = nullptr, ListNode *next = nullptr) : data(data), prior(prior), next(next) { }
 
-	type data;
+	T data;
 	ListNode *prior, *next;
 };
 
