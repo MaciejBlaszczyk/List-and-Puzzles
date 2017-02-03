@@ -1,2 +1,2 @@
 # List-and-Puzzles
-CycledDoubleLinkedList and its usage in Puzzles
+Cycled double linked list and its usage in puzzles
