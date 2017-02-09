@@ -1,3 +1,4 @@
 # List-and-Puzzles
-Cycled double linked list and its usage in puzzles
-fdfdfdf
+
+Written : 01.2017
+Language : C++
