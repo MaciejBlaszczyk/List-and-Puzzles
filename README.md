@@ -1,4 +1,4 @@
-# List-and-Puzzles
+# Puzzles
 
 Written : 01.2017
 
